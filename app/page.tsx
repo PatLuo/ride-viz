@@ -3,12 +3,16 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Card } from "@/components/ui/card";
 import ActivityCard from "@/components/ui/activityCard";
 
-import { refreshToken, getActivities } from "@/lib/utils";
+import { refreshToken, getActivities } from "@/lib/serverUtils";
 import { FullActivity, RefreshTokenData } from "@/lib/types";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@radix-ui/react-separator";
+
 import backupData from "@/public/data.json";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+
 export const revalidate = 10;
 
 const client_id = process.env.CLIENT_ID;
@@ -28,7 +32,7 @@ export default async function Home() {
 	if (newToken !== null) {
 		const response: FullActivity[] = await getActivities(
 			newToken.access_token,
-			5
+			30 //SPECIFY NUMBER OF ACTIVITIES TO DISPLAY
 		);
 
 		if (response !== null) {
@@ -39,28 +43,33 @@ export default async function Home() {
 	}
 
 	return (
-		<main className=" ">
+		<main className="m-[2vh]">
 			<ResizablePanelGroup
 				direction="horizontal"
-				className="min-h-96 rounded-lg border "
+				className=" rounded-lg border "
 			>
 				<ResizablePanel defaultSize={75}>
-					<div className="flex h-full items-center justify-center p-6">
+					<div className="flex h-full items-center justify-center ">
 						<span className="font-semibold">Content</span>
 					</div>
 				</ResizablePanel>
 				<ResizableHandle withHandle />
-				<ResizablePanel defaultSize={25}>
-					<div className="flex flex-col h-full items-center justify-center p-6">
-						<span className="font-semibold">Sidebar</span>
-						{activities.map((activity) => (
-							<div key={activity.id}>
-								<Card>
-									<ActivityCard activity={activity} />
-								</Card>
-							</div>
-						))}
+				<ResizablePanel
+					defaultSize={25}
+					className="max-w-[90%] md:max-w-[40%] lg:max-w-[400px]"
+				>
+					<div className="flex items-center px-4 py-2 justify-between border-b">
+						<h1 className="text-xl font-bold ">Rides</h1>
 					</div>
+					<ScrollArea className="h-[91vh]">
+						<div className="flex flex-col items-stretch justify-between gap-2 rouded-lg p-3">
+							{activities.map((activity) => (
+								<div key={activity.id}>
+									<ActivityCard activity={activity} />
+								</div>
+							))}
+						</div>
+					</ScrollArea>
 				</ResizablePanel>
 			</ResizablePanelGroup>
 		</main>
