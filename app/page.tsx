@@ -62,7 +62,10 @@ export default async function Home() {
 					</div>
 					<DynamicMap />
 				</ResizablePanel>
-				<ResizableHandle withHandle />
+				<ResizableHandle
+					withHandle
+					style={{ position: "relative", zIndex: 400 }}
+				/>
 				<ResizablePanel
 					defaultSize={25}
 					maxSize={40}
