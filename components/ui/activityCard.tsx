@@ -1,5 +1,6 @@
 import { FullActivity } from "@/lib/types";
 import { Card } from "./card";
+import { Dialog, DialogContent, DialogTrigger } from "./dialog";
 interface ActivityCardProps {
 	activity: FullActivity;
 }
@@ -44,15 +45,33 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 		return Math.round(distance / 100) / 10; //round to 1 decimal place
 	}
 	return (
-		<Card className="p-3 min-w-56">
-			<div className="flex justify-between">
-				<span className="font-semibold">{formatDate(start_date_local)}</span>
-				<span className="text-md">{formatStartTime(start_date_local)}</span>
-			</div>
-			<div className="flex justify-between">
-				<span className="text-md">{formatDistance(distance)} km</span>
-				<span className="text-sm">{formatDuration(moving_time)}</span>
-			</div>
-		</Card>
+		<Dialog>
+			<DialogTrigger className="w-full">
+				<Card className="p-3 min-w-56 hover:bg-gray-200 dark:hover:bg-[hsl(20,76%,18%)] transition-colors duration-100">
+					<div className="flex justify-between">
+						<span className="font-semibold">
+							{formatDate(start_date_local)}
+						</span>
+						<span className="text-md">{formatStartTime(start_date_local)}</span>
+					</div>
+					<div className="flex justify-between">
+						<span className="text-md">{formatDistance(distance)} km</span>
+						<span className="text-sm">{formatDuration(moving_time)}</span>
+					</div>
+				</Card>
+			</DialogTrigger>
+			<DialogContent style={{ zIndex: 400 }}>
+				<div className="p-3">
+					<h2 className="text-2xl font-semibold">{name}</h2>
+					<p className="text-md">
+						{formatDate(start_date_local)} at{" "}
+						{formatStartTime(start_date_local)}
+					</p>
+					<p className="text-md">
+						{formatDistance(distance)} km in {formatDuration(moving_time)}
+					</p>
+				</div>
+			</DialogContent>
+		</Dialog>
 	);
 }

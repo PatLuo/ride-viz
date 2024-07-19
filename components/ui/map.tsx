@@ -24,7 +24,7 @@ export default function Map({ activities }: MapProps) {
 
 	return (
 		<MapContainer
-			style={{ height: "90vh", width: "98vw" }}
+			style={{ height: "90vh", width: "98vw", zIndex: 0 }}
 			center={[45.424721, -75.695]}
 			zoom={13}
 			className="dark:bg-gray-800"
