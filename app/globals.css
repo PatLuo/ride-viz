@@ -86,11 +86,18 @@
 }
 
 .dark .leaflet-control-zoom-in:hover,
-.dark .leaflet-control-zoom-out:hover,
-.dark .leaflet-control-layers-toggle:hover {
-	background-color: hsl(20, 14.3%, 8.1%) !important;
+.dark .leaflet-control-zoom-out:hover {
+	background-color: hsl(20, 76%, 18%) !important;
 }
 
 .dark .leaflet-control-layers-toggle {
 	border-radius: 3px !important;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+div[role="dialog"] .leaflet-control-layers-toggle {
+	display: none !important;
 }

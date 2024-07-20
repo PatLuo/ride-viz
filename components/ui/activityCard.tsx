@@ -55,7 +55,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild className="w-full">
-				<Card className="p-3 min-w-56 hover:bg-gray-200 dark:hover:bg-[hsl(20,76%,18%)] transition-colors duration-100">
+				<Card className="p-3 min-w-56 hover:bg-gray-200 dark:hover:bg-[hsl(20,76%,18%)] transition-colors duration-100 pointer">
 					<div className="flex justify-between">
 						<span className="font-semibold">
 							{formatDate(start_date_local)}
@@ -72,7 +72,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 				<DialogTitle>
 					<div className="text-3xl font-bold">{name}</div>
 				</DialogTitle>
-				<DialogDescription asChild className=" p-5">
+				<DialogDescription asChild className="pt-5 ">
 					<div className="text-md">
 						{formatDate(start_date_local)} at{" "}
 						{formatStartTime(start_date_local)}
