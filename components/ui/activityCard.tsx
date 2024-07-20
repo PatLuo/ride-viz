@@ -54,7 +54,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 	}
 	return (
 		<Dialog>
-			<DialogTrigger className="w-full">
+			<DialogTrigger asChild className="w-full">
 				<Card className="p-3 min-w-56 hover:bg-gray-200 dark:hover:bg-[hsl(20,76%,18%)] transition-colors duration-100">
 					<div className="flex justify-between">
 						<span className="font-semibold">
@@ -70,18 +70,18 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 			</DialogTrigger>
 			<DialogContent className="min-w-[80%] lg:min-w-[800px] h-[80%] flex flex-col">
 				<DialogTitle>
-					<h1 className="text-3xl font-bold">{name}</h1>
+					<div className="text-3xl font-bold">{name}</div>
 				</DialogTitle>
-				<DialogDescription className="h-[90%] p-5">
-					<p className="text-md">
+				<DialogDescription asChild className=" p-5">
+					<div className="text-md">
 						{formatDate(start_date_local)} at{" "}
 						{formatStartTime(start_date_local)}
-					</p>
-					<p className="text-md">
 						{formatDistance(distance)} km in {formatDuration(moving_time)}
-					</p>
-					<MiniMap activity={activity}></MiniMap>
+					</div>
 				</DialogDescription>
+				<div className="h-[90%] p-5">
+					<MiniMap activity={activity} />
+				</div>
 			</DialogContent>
 		</Dialog>
 	);
