@@ -1,6 +1,14 @@
 import { FullActivity } from "@/lib/types";
 import { Card } from "./card";
-import { Dialog, DialogContent, DialogTrigger } from "./dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogTitle,
+	DialogTrigger,
+} from "./dialog";
+import MiniMap from "./miniMap";
+
 interface ActivityCardProps {
 	activity: FullActivity;
 }
@@ -60,9 +68,11 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 					</div>
 				</Card>
 			</DialogTrigger>
-			<DialogContent style={{ zIndex: 400 }}>
-				<div className="p-3">
-					<h2 className="text-2xl font-semibold">{name}</h2>
+			<DialogContent className="min-w-[80%] lg:min-w-[800px] h-[80%] flex flex-col">
+				<DialogTitle>
+					<h1 className="text-3xl font-bold">{name}</h1>
+				</DialogTitle>
+				<DialogDescription className="h-[90%] p-5">
 					<p className="text-md">
 						{formatDate(start_date_local)} at{" "}
 						{formatStartTime(start_date_local)}
@@ -70,7 +80,8 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 					<p className="text-md">
 						{formatDistance(distance)} km in {formatDuration(moving_time)}
 					</p>
-				</div>
+					<MiniMap activity={activity}></MiniMap>
+				</DialogDescription>
 			</DialogContent>
 		</Dialog>
 	);
