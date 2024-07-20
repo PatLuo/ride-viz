@@ -65,5 +65,32 @@
 	}
 	body {
 		@apply bg-background text-foreground;
+		overflow: hidden;
 	}
+}
+
+.dark .leaflet-control-zoom-in,
+.dark .leaflet-control-zoom-out,
+.dark .leaflet-control-layers-toggle,
+.dark .leaflet-control-layers-expanded {
+	background-color: hsl(20, 14.3%, 4.1%) !important;
+	color: hsl(60, 9.1%, 97.8%) !important;
+}
+
+.dark .leaflet-control-zoom-in {
+	border-bottom: rgb(87, 87, 87) 1px solid !important; /* line between zoom in and zoomout btns*/
+	border-radius: 4px 4px 0 0 !important;
+}
+.dark .leaflet-control-zoom-out {
+	border-radius: 0 0 4px 4px !important;
+}
+
+.dark .leaflet-control-zoom-in:hover,
+.dark .leaflet-control-zoom-out:hover,
+.dark .leaflet-control-layers-toggle:hover {
+	background-color: hsl(20, 14.3%, 8.1%) !important;
+}
+
+.dark .leaflet-control-layers-toggle {
+	border-radius: 3px !important;
 }
