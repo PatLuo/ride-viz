@@ -8,19 +8,18 @@ import ActivityCard from "@/components/ui/activityCard";
 import { refreshToken, getActivities } from "@/lib/serverUtils";
 import { FullActivity, RefreshTokenData } from "@/lib/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@radix-ui/react-separator";
 import dynamic from "next/dynamic";
-
 import backupData from "@/public/data.json";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
-export const revalidate = 10;
+export const revalidate = 0;
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const refresh_token = process.env.REFRESH_TOKEN;
 
-const DynamicMap = dynamic(() => import("@/components/ui/map"), {
+//have to dynamically import map component to fix window not found error
+const Map = dynamic(() => import("@/components/ui/map"), {
 	ssr: false,
 });
 
@@ -37,7 +36,7 @@ export default async function Home() {
 	if (newToken !== null) {
 		const response: FullActivity[] = await getActivities(
 			newToken.access_token,
-			30 //SPECIFY NUMBER OF ACTIVITIES TO DISPLAY
+			200 //SPECIFY NUMBER OF ACTIVITIES TO DISPLAY
 		);
 
 		if (response !== null) {
@@ -60,15 +59,12 @@ export default async function Home() {
 						</h1>
 						<ModeToggle />
 					</div>
-					<DynamicMap />
+					<Map activities={activities} />
 				</ResizablePanel>
-				<ResizableHandle
-					withHandle
-					style={{ position: "relative", zIndex: 400 }}
-				/>
+				<ResizableHandle withHandle style={{ position: "relative" }} />
 				<ResizablePanel
 					defaultSize={25}
-					maxSize={40}
+					maxSize={50}
 					className="max-w-[90%] md:max-w-[40%] lg:max-w-[400px]"
 				>
 					<div className="flex items-center px-4 py-3 justify-between border-b">
