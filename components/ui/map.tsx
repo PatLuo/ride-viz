@@ -31,12 +31,7 @@ export default function Map({ activities }: MapProps) {
 			style={{ height: "90vh", width: "98vw", zIndex: 0 }}
 			center={[45.424721, -75.695]}
 			zoom={13}
-			className="dark:bg-gray-800"
 		>
-			<TileLayer
-				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-			/>
 			<LayersControl position="bottomleft">
 				<BaseLayer checked={!isDarkMode} name="Light">
 					<TileLayer
@@ -52,7 +47,6 @@ export default function Map({ activities }: MapProps) {
 						maxZoom={20}
 					/>
 				</BaseLayer>
-
 				<BaseLayer checked={false} name="Satellite">
 					<TileLayer
 						attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"

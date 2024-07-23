@@ -26,32 +26,37 @@ export default function MiniMap({ activity }: MiniMapProps) {
 	const polylineData: [number, number][] = polyline.decode(
 		activity.map.summary_polyline
 	);
+	console.log(polylineData);
 
 	return (
-		<MapContainer
-			style={{ height: "100%", width: "100%", zIndex: 0 }}
-			className="dark:bg-gray-800"
-			bounds={polylineData}
-		>
-			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-			<LayersControl position="bottomleft">
-				<BaseLayer checked={!isDarkMode} name="Light">
-					<TileLayer
-						url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
-						maxZoom={20}
-					/>
-				</BaseLayer>
-				<BaseLayer checked={isDarkMode} name="Dark">
-					<TileLayer
-						url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-						maxZoom={20}
-					/>
-				</BaseLayer>
-			</LayersControl>
-			<Polyline
-				positions={polylineData}
-				pathOptions={{ color: "hsl(24.6, 95%, 53.1%)" }}
-			></Polyline>
-		</MapContainer>
+		<>
+			{polylineData.length > 0 && (
+				<MapContainer
+					style={{ height: "100%", width: "100%", zIndex: 0 }}
+					className="dark:bg-gray-800"
+					bounds={polylineData}
+					zoomControl={false}
+				>
+					<LayersControl position="bottomleft">
+						<BaseLayer checked={!isDarkMode} name="Light">
+							<TileLayer
+								url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+								maxZoom={20}
+							/>
+						</BaseLayer>
+						<BaseLayer checked={isDarkMode} name="Dark">
+							<TileLayer
+								url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+								maxZoom={20}
+							/>
+						</BaseLayer>
+					</LayersControl>
+					<Polyline
+						positions={polylineData}
+						pathOptions={{ color: "hsl(24.6, 95%, 53.1%)" }}
+					></Polyline>
+				</MapContainer>
+			)}
+		</>
 	);
 }

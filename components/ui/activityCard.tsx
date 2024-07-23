@@ -70,7 +70,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 			</DialogTrigger>
 			<DialogContent className="min-w-[80%] lg:min-w-[800px] h-[80%] flex flex-col">
 				<DialogTitle>
-					<div className="text-3xl font-bold">{name}</div>
+					<div className="text-3xl font-bold px-5">{name}</div>
 				</DialogTitle>
 				<DialogDescription asChild className="pt-5 ">
 					<div className="text-md">

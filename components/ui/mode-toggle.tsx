@@ -27,6 +27,7 @@ export function ModeToggle() {
 			<DropdownMenuContent
 				align="end"
 				style={{ position: "relative", zIndex: 400 }}
+				onCloseAutoFocus={(e) => e.preventDefault()} // Prevent focus from moving to the button after closing dropdown
 			>
 				<DropdownMenuItem onClick={() => setTheme("light")}>
 					Light
