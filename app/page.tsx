@@ -1,26 +1,26 @@
+//components
 import {
 	ResizableHandle,
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import ActivityCard from "@/components/ui/activityCard";
 import StravaBtn from "@/components/ui/stravaBtn";
+import LogoutBtn from "@/components/ui/logoutBtn";
+//utils
 import {
 	getSession,
 	refreshAccessToken,
 	getActivities,
 } from "@/lib/serverUtils";
 import { FullActivity, RefreshTokenData } from "@/lib/types";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import dynamic from "next/dynamic";
+//data
 import backupData from "@/public/data.json";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Button } from "@/components/ui/button";
-import { logout } from "@/lib/serverUtils";
-import { redirect } from "next/navigation";
-export const revalidate = 0;
 
-const defaultRefreshToken = process.env.REFRESH_TOKEN;
+export const revalidate = 0;
 
 //have to dynamically import map component to fix window not found error
 const Map = dynamic(() => import("@/components/ui/map"), {
@@ -29,15 +29,14 @@ const Map = dynamic(() => import("@/components/ui/map"), {
 
 export default async function Home() {
 	const session = await getSession();
-	console.log("session:", session);
+	let activities: FullActivity[] = [];
 
 	//get new access token
-	const newToken: RefreshTokenData | null = await refreshAccessToken(
-		defaultRefreshToken
-	);
+	const newToken: RefreshTokenData | null = session
+		? await refreshAccessToken(session)
+		: await refreshAccessToken();
 
-	//if new token bad, use backup data
-	let activities: FullActivity[] = [];
+	// get activites
 	if (newToken !== null) {
 		const response: FullActivity[] = await getActivities(
 			newToken.access_token,
@@ -62,21 +61,7 @@ export default async function Home() {
 						<h1 className="text-3xl font-bold pr-3">
 							RIDE<span className="text-primary">VIZ</span>
 						</h1>
-						{session ? (
-							<form
-								action={async () => {
-									"use server";
-									await logout();
-									redirect("/");
-								}}
-							>
-								<Button type="submit" variant={"secondary"}>
-									Logout
-								</Button>
-							</form>
-						) : (
-							<StravaBtn />
-						)}
+						{session ? <LogoutBtn /> : <StravaBtn />}
 						<ModeToggle />
 					</div>
 					<Map activities={activities} />
