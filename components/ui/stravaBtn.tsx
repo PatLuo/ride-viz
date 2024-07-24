@@ -1,7 +1,7 @@
 export default function stravaBtn() {
 	return (
 		<div className="flex flex-row items-center">
-			<p className="hidden sm:block text-sm md:text-lg font-bold tracking-tight align-bottom text-gray-600 dark:text-gray-300">
+			<p className="hidden lg:block text-sm md:text-lg font-bold tracking-tight align-bottom text-gray-600 dark:text-gray-300">
 				Load Your Own Data:
 			</p>
 			<a

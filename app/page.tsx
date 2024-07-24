@@ -69,7 +69,7 @@ export default async function Home() {
 				<ResizableHandle withHandle style={{ position: "relative" }} />
 				<ResizablePanel
 					defaultSize={25}
-					maxSize={50}
+					maxSize={55}
 					className="max-w-[90%] md:max-w-[40%] lg:max-w-[400px]"
 				>
 					<div className="flex items-center px-4 py-3 justify-between border-b">
