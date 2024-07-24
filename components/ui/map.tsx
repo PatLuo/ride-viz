@@ -1,18 +1,14 @@
 "use client";
 
-import {
-	MapContainer,
-	TileLayer,
-	Polyline,
-	LayersControl,
-} from "react-leaflet";
+import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
 
 const { BaseLayer } = LayersControl;
 
 import "leaflet/dist/leaflet.css";
+import polyline from "@mapbox/polyline"; //to decode polyline data
+import { useTheme } from "next-themes"; //to check theme and modify map buttons
+import PolylineLayer from "./polylineLayer";
 import { FullActivity } from "@/lib/types";
-import polyline from "@mapbox/polyline";
-import { useTheme } from "next-themes";
 
 interface MapProps {
 	activities: FullActivity[];
@@ -22,6 +18,7 @@ export default function Map({ activities }: MapProps) {
 	const { resolvedTheme } = useTheme();
 	const isDarkMode = resolvedTheme === "dark";
 
+	//decode activity data into polylines
 	const polylines: [number, number][][] = activities.map((activity) => {
 		return polyline.decode(activity.map.summary_polyline);
 	});
@@ -54,14 +51,7 @@ export default function Map({ activities }: MapProps) {
 					/>
 				</BaseLayer>
 			</LayersControl>
-			{polylines.map((polyline, i) => (
-				<Polyline
-					className="opacity-30"
-					key={i}
-					positions={polyline}
-					pathOptions={{ color: "hsl(24.6, 95%, 53.1%)" }}
-				></Polyline>
-			))}
+			<PolylineLayer polylines={polylines} />
 		</MapContainer>
 	);
 }

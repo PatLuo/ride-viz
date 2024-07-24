@@ -101,3 +101,7 @@
 div[role="dialog"] .leaflet-control-layers-toggle {
 	display: none !important;
 }
+
+.polyline {
+	transition: 0.2s;
+}
