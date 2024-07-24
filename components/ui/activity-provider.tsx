@@ -3,7 +3,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { FullActivity } from "@/lib/types";
 
 type ActivityContextType = {
-	filtered: FullActivity[] | null;
+	filtered: FullActivity[];
 	updatefiltered: (newfiltered: FullActivity[]) => void;
 };
 
@@ -12,7 +12,7 @@ const ActivityContext = createContext<ActivityContextType | undefined>(
 );
 
 export const ActivityProvider = ({ children }: { children: ReactNode }) => {
-	const [filtered, setfiltered] = useState<FullActivity[] | null>(null);
+	const [filtered, setfiltered] = useState<FullActivity[]>([]);
 
 	const updatefiltered = (newfiltered: FullActivity[]) => {
 		setfiltered(newfiltered);

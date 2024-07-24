@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import ActivityCard from "@/components/ui/activityCard";
 import StravaBtn from "@/components/ui/stravaBtn";
 import LogoutBtn from "@/components/ui/logoutBtn";
-import FilterBtn from "@/components/ui/filterBtn";
+import Filter from "@/components/ui/filter";
 //utils
 import {
 	getSession,
@@ -19,13 +19,15 @@ import {
 	getActivities,
 } from "@/lib/serverUtils";
 import { FullActivity, RefreshTokenData } from "@/lib/types";
-import dynamic from "next/dynamic";
+
 //data
 import backupData from "@/public/data.json";
+import ActivitiesList from "@/components/ui/activitiesList";
 
 export const revalidate = 0;
 
 //have to dynamically import map component to fix window not found error
+import dynamic from "next/dynamic";
 const Map = dynamic(() => import("@/components/ui/map"), {
 	ssr: false,
 });
@@ -65,7 +67,7 @@ export default async function Home() {
 						<div className="flex items-center h-7 space-x-1 pr-1">
 							{session ? <LogoutBtn /> : <StravaBtn />}
 							<Separator orientation="vertical" />
-							<FilterBtn activities={activities} />
+							<Filter activities={activities} />
 							<Separator orientation="vertical" />
 							<ModeToggle />
 						</div>
@@ -81,15 +83,7 @@ export default async function Home() {
 					<div className="flex items-center px-4 py-3 justify-between border-b">
 						<h1 className="text-2xl font-bold ">Rides</h1>
 					</div>
-					<ScrollArea className="h-[90vh]">
-						<div className="flex flex-col items-stretch justify-between gap-2 rouded-lg p-3">
-							{activities.map((activity) => (
-								<div key={activity.id}>
-									<ActivityCard activity={activity} />
-								</div>
-							))}
-						</div>
-					</ScrollArea>
+					<ActivitiesList />
 				</ResizablePanel>
 			</ResizablePanelGroup>
 		</main>

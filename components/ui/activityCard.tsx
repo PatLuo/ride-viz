@@ -7,7 +7,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "./dialog";
-import MiniMap from "./miniMap";
 
 import {
 	formatDistance,
@@ -19,13 +18,18 @@ import {
 interface ActivityCardProps {
 	activity: FullActivity;
 }
+//have to dynamically import map component to fix window not found error
+import dynamic from "next/dynamic";
+const MiniMap = dynamic(() => import("@/components/ui/miniMap"), {
+	ssr: false,
+});
 
 export default function ActivityCard({ activity }: ActivityCardProps) {
 	const { name, distance, moving_time, start_date_local } = activity;
 
 	return (
 		<Dialog>
-			<DialogTrigger asChild className="w-full">
+			<DialogTrigger className="w-full">
 				<Card className="p-3 min-w-56 hover:bg-gray-200 dark:hover:bg-[hsl(20,76%,18%)] transition-colors duration-100 pointer">
 					<div className="flex justify-between">
 						<span className="font-semibold">
@@ -49,10 +53,10 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 						{formatStartTime(start_date_local)}
 						{formatDistance(distance)} km in {formatDuration(moving_time)}
 					</div>
+					<div className="h-[90%] p-5">
+						<MiniMap activity={activity} />
+					</div>
 				</DialogDescription>
-				<div className="h-[90%] p-5">
-					<MiniMap activity={activity} />
-				</div>
 			</DialogContent>
 		</Dialog>
 	);
