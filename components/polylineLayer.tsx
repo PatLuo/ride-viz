@@ -1,19 +1,24 @@
 import { Polyline, useMap, useMapEvents } from "react-leaflet";
 import { useState } from "react";
 import { useTheme } from "next-themes"; //to check theme and modify map buttons
+import polyline from "@mapbox/polyline"; //to decode polyline data
 
-interface PolylineLayerProps {
-	polylines: [number, number][][];
-}
+import { useActivity } from "./activity-provider";
 
-export default function PolylineLayer({ polylines }: PolylineLayerProps) {
-	const map = useMap();
-
+export default function PolylineLayer() {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [selectedIndex, setselectedIndex] = useState<number | null>(null);
 
 	const { resolvedTheme } = useTheme();
 	const isDarkMode = resolvedTheme === "dark";
+
+	const map = useMap();
+
+	//decode activity data into polylines
+	const { filtered } = useActivity();
+	const polylines: [number, number][][] = filtered.map((activity) => {
+		return polyline.decode(activity.map.summary_polyline);
+	});
 
 	const handleMouseOver = (polyline: any, i: number) => {
 		setHoveredIndex(i);
@@ -45,7 +50,7 @@ export default function PolylineLayer({ polylines }: PolylineLayerProps) {
 			// Only trigger map click if not clicking on a polyline
 			if (e.originalEvent.target instanceof SVGElement) {
 				if (e.originalEvent.target.closest(".leaflet-interactive")) {
-					return; // Click is on a polyline, do nothing
+					return; // if click is on a polyline, do nothing
 				}
 			}
 			handleMapClick();

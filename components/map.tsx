@@ -1,27 +1,14 @@
 "use client";
-
 import { MapContainer, TileLayer, LayersControl } from "react-leaflet";
-
 const { BaseLayer } = LayersControl;
 
 import "leaflet/dist/leaflet.css";
-import polyline from "@mapbox/polyline"; //to decode polyline data
 import { useTheme } from "next-themes"; //to check theme and modify map buttons
 import PolylineLayer from "./polylineLayer";
-import { FullActivity } from "@/lib/types";
 
-interface MapProps {
-	activities: FullActivity[];
-}
-
-export default function Map({ activities }: MapProps) {
+export default function Map() {
 	const { resolvedTheme } = useTheme();
 	const isDarkMode = resolvedTheme === "dark";
-
-	//decode activity data into polylines
-	const polylines: [number, number][][] = activities.map((activity) => {
-		return polyline.decode(activity.map.summary_polyline);
-	});
 
 	return (
 		<MapContainer
@@ -51,7 +38,7 @@ export default function Map({ activities }: MapProps) {
 					/>
 				</BaseLayer>
 			</LayersControl>
-			<PolylineLayer polylines={polylines} />
+			<PolylineLayer />
 		</MapContainer>
 	);
 }

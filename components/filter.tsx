@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { Filter as FilterIcon } from "lucide-react";
 import {
 	Sheet,
@@ -28,7 +28,10 @@ export default function Filter({ activities }: FilterBtnProps) {
 	const [filteredActivities, setFilteredActivities] = useState(activities);
 	const { updatefiltered } = useActivity();
 
-	updatefiltered(filteredActivities);
+	useEffect(() => {
+		updatefiltered(filteredActivities);
+	}, []);
+
 	return (
 		<TooltipProvider>
 			<Tooltip delayDuration={100}>
@@ -45,6 +48,7 @@ export default function Filter({ activities }: FilterBtnProps) {
 								<SheetHeader>
 									<SheetTitle>Filter Rides</SheetTitle>
 									<SheetDescription>
+										<button onClick={() => updatefiltered([])}>clear</button>
 										This action cannot be undone. This will permanently delete
 										your account and remove your data from our servers.
 									</SheetDescription>
