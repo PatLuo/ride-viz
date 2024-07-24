@@ -5,13 +5,13 @@ import {
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ModeToggle } from "@/components/ui/mode-toggle";
+import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 //components
-import ActivityCard from "@/components/ui/activityCard";
-import StravaBtn from "@/components/ui/stravaBtn";
-import LogoutBtn from "@/components/ui/logoutBtn";
-import Filter from "@/components/ui/filter";
+import ActivityCard from "@/components/activityCard";
+import StravaBtn from "@/components/stravaBtn";
+import LogoutBtn from "@/components/logoutBtn";
+import Filter from "@/components/filter";
 //utils
 import {
 	getSession,
@@ -22,13 +22,13 @@ import { FullActivity, RefreshTokenData } from "@/lib/types";
 
 //data
 import backupData from "@/public/data.json";
-import ActivitiesList from "@/components/ui/activitiesList";
+import ActivitiesList from "@/components/activitiesList";
 
 export const revalidate = 0;
 
 //have to dynamically import map component to fix window not found error
 import dynamic from "next/dynamic";
-const Map = dynamic(() => import("@/components/ui/map"), {
+const Map = dynamic(() => import("@/components/map"), {
 	ssr: false,
 });
 

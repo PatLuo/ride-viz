@@ -1,12 +1,12 @@
 import { FullActivity } from "@/lib/types";
-import { Card } from "./card";
+import { Card } from "./ui/card";
 import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
-} from "./dialog";
+} from "./ui/dialog";
 
 import {
 	formatDistance,
@@ -20,7 +20,7 @@ interface ActivityCardProps {
 }
 //have to dynamically import map component to fix window not found error
 import dynamic from "next/dynamic";
-const MiniMap = dynamic(() => import("@/components/ui/miniMap"), {
+const MiniMap = dynamic(() => import("@/components/miniMap"), {
 	ssr: false,
 });
 

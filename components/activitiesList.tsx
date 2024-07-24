@@ -1,6 +1,6 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ActivityCard from "@/components/ui/activityCard";
+import ActivityCard from "@/components/activityCard";
 import { useActivity } from "./activity-provider";
 
 export default function ActivitiesList() {

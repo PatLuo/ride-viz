@@ -1,7 +1,6 @@
 import { Polyline, useMap, useMapEvents } from "react-leaflet";
 import { useState } from "react";
 import { useTheme } from "next-themes"; //to check theme and modify map buttons
-import { start } from "repl";
 
 interface PolylineLayerProps {
 	polylines: [number, number][][];
