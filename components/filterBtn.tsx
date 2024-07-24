@@ -1,15 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import { Filter as FilterIcon } from "lucide-react";
-import {
-	Sheet,
-	SheetContent,
-	SheetDescription,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "./ui/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -34,22 +24,8 @@ export default function FilterBtn({ activities }: FilterBtnProps) {
 			<Tooltip delayDuration={100}>
 				<TooltipTrigger asChild>
 					<div>
-						{/*this div is needed for tooltip */}
-						<Sheet>
-							<SheetTrigger asChild>
-								<Button variant="ghost" size="icon">
-									<FilterIcon className="h-[1.2rem] w-[1.2rem] " />
-								</Button>
-							</SheetTrigger>
-							<SheetContent>
-								<SheetHeader>
-									<SheetTitle>Filter Rides</SheetTitle>
-									<SheetDescription>
-										<FilterOptions activities={activities} />
-									</SheetDescription>
-								</SheetHeader>
-							</SheetContent>
-						</Sheet>
+						{/* this div needed for tooltip to work */}
+						<FilterOptions activities={activities} />
 					</div>
 				</TooltipTrigger>
 				<TooltipContent>Filter</TooltipContent>
