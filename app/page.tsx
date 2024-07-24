@@ -4,14 +4,13 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 //components
-import ActivityCard from "@/components/activityCard";
 import StravaBtn from "@/components/stravaBtn";
 import LogoutBtn from "@/components/logoutBtn";
-import Filter from "@/components/filter";
+import Filter from "@/components/filterBtn";
+import ActivitiesList from "@/components/activitiesList";
 //utils
 import {
 	getSession,
@@ -21,8 +20,8 @@ import {
 import { FullActivity, RefreshTokenData } from "@/lib/types";
 
 //data
+
 import backupData from "@/public/data.json";
-import ActivitiesList from "@/components/activitiesList";
 
 export const revalidate = 0;
 
@@ -47,7 +46,6 @@ export default async function Home() {
 			newToken.access_token,
 			200 //SPECIFY NUMBER OF ACTIVITIES TO DISPLAY
 		);
-
 		{
 			response !== null ? (activities = response) : (activities = backupData);
 		}
@@ -72,7 +70,7 @@ export default async function Home() {
 							<ModeToggle />
 						</div>
 					</div>
-					<Map activities={activities} />
+					<Map />
 				</ResizablePanel>
 				<ResizableHandle withHandle style={{ position: "relative" }} />
 				<ResizablePanel

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, use } from "react";
+import { useEffect } from "react";
 import { Filter as FilterIcon } from "lucide-react";
 import {
 	Sheet,
@@ -16,22 +16,19 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-import { useActivity } from "./activity-provider";
-
+import FilterOptions from "./filterOptions";
+import { useActivity } from "@/components/activity-provider";
 import { FullActivity } from "@/lib/types";
 
 interface FilterBtnProps {
 	activities: FullActivity[];
 }
-export default function Filter({ activities }: FilterBtnProps) {
-	const [filteredActivities, setFilteredActivities] = useState(activities);
+
+export default function FilterBtn({ activities }: FilterBtnProps) {
 	const { updatefiltered } = useActivity();
-
 	useEffect(() => {
-		updatefiltered(filteredActivities);
+		updatefiltered(activities); //initialize with all activities
 	}, []);
-
 	return (
 		<TooltipProvider>
 			<Tooltip delayDuration={100}>
@@ -48,16 +45,14 @@ export default function Filter({ activities }: FilterBtnProps) {
 								<SheetHeader>
 									<SheetTitle>Filter Rides</SheetTitle>
 									<SheetDescription>
-										<button onClick={() => updatefiltered([])}>clear</button>
-										This action cannot be undone. This will permanently delete
-										your account and remove your data from our servers.
+										<FilterOptions activities={activities} />
 									</SheetDescription>
 								</SheetHeader>
 							</SheetContent>
 						</Sheet>
 					</div>
 				</TooltipTrigger>
-				<TooltipContent>Filter rides</TooltipContent>
+				<TooltipContent>Filter</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>
 	);
