@@ -1,4 +1,4 @@
-//components
+//shadcn
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -6,9 +6,12 @@ import {
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Separator } from "@/components/ui/separator";
+//components
 import ActivityCard from "@/components/ui/activityCard";
 import StravaBtn from "@/components/ui/stravaBtn";
 import LogoutBtn from "@/components/ui/logoutBtn";
+import FilterBtn from "@/components/ui/filterBtn";
 //utils
 import {
 	getSession,
@@ -34,7 +37,7 @@ export default async function Home() {
 	//get new access token
 	const newToken: RefreshTokenData | null = session
 		? await refreshAccessToken(session)
-		: await refreshAccessToken();
+		: await refreshAccessToken(); //uses default refresh token
 
 	// get activites
 	if (newToken !== null) {
@@ -43,10 +46,8 @@ export default async function Home() {
 			200 //SPECIFY NUMBER OF ACTIVITIES TO DISPLAY
 		);
 
-		if (response !== null) {
-			activities = response;
-		} else {
-			activities = backupData;
+		{
+			response !== null ? (activities = response) : (activities = backupData);
 		}
 	}
 
@@ -57,12 +58,18 @@ export default async function Home() {
 				className=" rounded-lg border "
 			>
 				<ResizablePanel defaultSize={75}>
-					<div className="flex items-center px-4 py-2 justify-between border-b">
-						<h1 className="text-3xl font-bold pr-3">
+					<div className="flex items-center py-2.5 justify-between border-b">
+						<h1 className="text-3xl font-bold pl-3">
 							RIDE<span className="text-primary">VIZ</span>
 						</h1>
-						{session ? <LogoutBtn /> : <StravaBtn />}
-						<ModeToggle />
+						<div className="flex items-center h-7 space-x-1 pr-1">
+							{session ? <LogoutBtn /> : <StravaBtn />}
+							<Separator orientation="vertical" />
+
+							<FilterBtn />
+							<Separator orientation="vertical" />
+							<ModeToggle />
+						</div>
 					</div>
 					<Map activities={activities} />
 				</ResizablePanel>
