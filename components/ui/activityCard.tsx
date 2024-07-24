@@ -53,10 +53,10 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 						{formatStartTime(start_date_local)}
 						{formatDistance(distance)} km in {formatDuration(moving_time)}
 					</div>
-					<div className="h-[90%] p-5">
-						<MiniMap activity={activity} />
-					</div>
 				</DialogDescription>
+				<div className="h-[90%] p-5">
+					<MiniMap activity={activity} />
+				</div>
 			</DialogContent>
 		</Dialog>
 	);
