@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Filter } from "lucide-react";
 import {
@@ -16,20 +17,31 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export default function FilterBtn() {
+import { useActivity } from "./activity-provider";
+
+import { FullActivity } from "@/lib/types";
+
+interface FilterBtnProps {
+	activities: FullActivity[];
+}
+export default function FilterBtn({ activities }: FilterBtnProps) {
+	const [filteredActivities, setFilteredActivities] = useState(activities);
+	const { updatefiltered } = useActivity();
+
+	updatefiltered(filteredActivities);
 	return (
 		<TooltipProvider>
 			<Tooltip delayDuration={100}>
-				<TooltipTrigger>
+				<TooltipTrigger asChild>
 					<Sheet>
-						<SheetTrigger>
+						<SheetTrigger asChild>
 							<Button variant="ghost" size="icon">
 								<Filter className="h-[1.2rem] w-[1.2rem] " />
 							</Button>
 						</SheetTrigger>
 						<SheetContent>
 							<SheetHeader>
-								<SheetTitle>Are you absolutely sure?</SheetTitle>
+								<SheetTitle>Filter Rides</SheetTitle>
 								<SheetDescription>
 									This action cannot be undone. This will permanently delete
 									your account and remove your data from our servers.

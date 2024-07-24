@@ -65,8 +65,7 @@ export default async function Home() {
 						<div className="flex items-center h-7 space-x-1 pr-1">
 							{session ? <LogoutBtn /> : <StravaBtn />}
 							<Separator orientation="vertical" />
-
-							<FilterBtn />
+							<FilterBtn activities={activities} />
 							<Separator orientation="vertical" />
 							<ModeToggle />
 						</div>
