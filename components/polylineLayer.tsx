@@ -15,31 +15,33 @@ export default function PolylineLayer() {
 	const map = useMap();
 
 	//decode activity data into polylines
-	const { filtered } = useActivity();
+	const { filtered, updateSelectedLine } = useActivity();
 
-	const handleMouseOver = (polyline: any, i: number) => {
-		setHoveredIndex(i);
+	const handleMouseOver = (polyline: any, id: number) => {
+		setHoveredIndex(id);
 		polyline.bringToFront(); //
 	};
 
-	const handleMouseOut = (polyline: any, i: number) => {
+	const handleMouseOut = (polyline: any, id: number) => {
 		setHoveredIndex(null);
-		if (selectedIndex == i) return; // don't send polyline to back if it's selected
+		if (selectedIndex == id) return; // don't send polyline to back if it's selected
 		setTimeout(() => {
 			// let animation finish before sending polyline to back
 			polyline.bringToBack();
 		}, 200);
 	};
 
-	const handleMouseClick = (polyline: any, i: number) => {
+	const handleMouseClick = (polyline: any, id: number) => {
 		polyline.bringToFront();
-		setselectedIndex(i);
-		setHoveredIndex(i);
+		setselectedIndex(id);
+		setHoveredIndex(id);
+		updateSelectedLine(id); //send selected line id to context for auto scroll
 	};
 
 	const handleMapClick = () => {
 		setselectedIndex(null);
 		setHoveredIndex(null);
+		updateSelectedLine(undefined);
 	};
 
 	useMapEvents({

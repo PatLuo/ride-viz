@@ -2,14 +2,31 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ActivityCard from "@/components/activityCard";
 import { useActivity } from "./activity-provider";
+import { useEffect } from "react";
 
 export default function ActivitiesList() {
-	const { filtered } = useActivity();
+	const { filtered, selectedLine } = useActivity();
+
+	function scrollIntoView(id: string) {
+		const element = document.getElementById(id);
+		if (element) {
+			element.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+				inline: "nearest",
+			});
+		}
+	}
+
+	useEffect(() => {
+		scrollIntoView(String(selectedLine));
+	}, [selectedLine]);
+
 	return (
-		<ScrollArea className="h-[90vh]">
-			<div className="flex flex-col items-stretch justify-between gap-2 rouded-lg p-3">
+		<ScrollArea className="h-[90vh] mt-2 ">
+			<div>
 				{filtered.map((activity) => (
-					<div key={activity.id}>
+					<div key={activity.id} id={String(activity.id)}>
 						<ActivityCard activity={activity} />
 					</div>
 				))}

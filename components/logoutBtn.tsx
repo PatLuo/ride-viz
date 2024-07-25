@@ -11,7 +11,7 @@ export default function LogoutBtn() {
 				redirect("/");
 			}}
 		>
-			<Button type="submit" variant={"secondary"}>
+			<Button type="submit" variant={"secondary"} className="mx-2">
 				Logout
 			</Button>
 		</form>
