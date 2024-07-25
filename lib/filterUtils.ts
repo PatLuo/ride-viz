@@ -19,3 +19,14 @@ export function filterByYear(
 		selectedYears.includes(new Date(activity.start_date_local).getFullYear())
 	);
 }
+
+export function filterByDistance(
+	activities: FullActivity[],
+	selectedDistance: number[]
+): FullActivity[] {
+	return activities.filter(
+		(activity) =>
+			activity.distance >= selectedDistance[0] &&
+			activity.distance <= selectedDistance[1]
+	);
+}
