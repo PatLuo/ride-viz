@@ -30,3 +30,13 @@ export function filterByDistance(
 			activity.distance <= selectedDistance[1]
 	);
 }
+export function filterByDuration(
+	activities: FullActivity[],
+	selectedDuration: number[]
+): FullActivity[] {
+	return activities.filter(
+		(activity) =>
+			activity.moving_time >= selectedDuration[0] &&
+			activity.moving_time <= selectedDuration[1]
+	);
+}

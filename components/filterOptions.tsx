@@ -1,7 +1,14 @@
-import { useActivity } from "./activity-provider";
 import { useState, useEffect } from "react";
+import { useActivity } from "./activity-provider"; //context
+import {
+	getAllYears,
+	filterByYear,
+	filterByDistance,
+	filterByDuration,
+} from "@/lib/filterUtils"; //utils
 import { FullActivity } from "@/lib/types";
 import { Checkbox } from "@/components/ui/checkbox";
+//shadcn ui
 import {
 	Sheet,
 	SheetContent,
@@ -19,7 +26,6 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Filter as FilterIcon } from "lucide-react";
-import { getAllYears, filterByYear, filterByDistance } from "@/lib/filterUtils";
 
 interface FilterOptionsProps {
 	activities: FullActivity[];
@@ -27,12 +33,15 @@ interface FilterOptionsProps {
 
 export default function FilterOptions({ activities }: FilterOptionsProps) {
 	const years = getAllYears(activities);
-
 	const [selectedYears, setSelectedYears] = useState<number[]>(years);
 	const [selectedDistance, setSelectedDistance] = useState<number[]>([
-		0, 10000,
+		0, 99_999,
 	]);
-	const { updatefiltered } = useActivity();
+	const [selectedDuration, setSelectedDuration] = useState<number[]>([
+		0, 21600,
+	]);
+
+	const { updatefiltered } = useActivity(); //context updater
 
 	function handleCheckboxChange(year: number) {
 		if (selectedYears.includes(year)) {
@@ -42,28 +51,46 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 		}
 	}
 
-	function handleSliderChange(values: number[]) {
+	function distanceSliderChange(values: number[]) {
 		setSelectedDistance(values);
 	}
 
+	function durationSliderChange(values: number[]) {
+		setSelectedDuration(values);
+	}
+
+	function resetFilters() {
+		setSelectedYears(years);
+		setSelectedDistance([0, 99_999]);
+		setSelectedDuration([0, 21600]);
+	}
+
+	//apply filters one at a time to full activity list then update context
 	useEffect(() => {
 		let newFiltered = filterByYear(activities, selectedYears);
 		newFiltered = filterByDistance(newFiltered, selectedDistance);
+		newFiltered = filterByDuration(newFiltered, selectedDuration);
 		updatefiltered(newFiltered);
-	}, [activities, selectedYears, selectedDistance]);
+	}, [activities, selectedYears, selectedDistance, selectedDuration]);
 
 	return (
-		<Sheet>
+		<Sheet modal={false}>
 			<SheetTrigger asChild>
 				<Button variant="ghost" size="icon">
 					<FilterIcon className="h-[1.2rem] w-[1.2rem] " />
 				</Button>
 			</SheetTrigger>
 
-			<SheetContent onCloseAutoFocus={(e) => e.preventDefault()}>
+			<SheetContent side="left" onCloseAutoFocus={(e) => e.preventDefault()}>
 				{/* Prevent focus from moving to filter btn on close */}
-				<SheetTitle className="text-2xl font-bold">Filters</SheetTitle>
-				<Accordion type="multiple" defaultValue={["year", "distance"]}>
+				<SheetTitle className="flex justify-between pr-10">
+					<h1 className="text-2xl font-bold">Filters</h1>
+					<Button onClick={resetFilters}>Clear Filters</Button>
+				</SheetTitle>
+				<Accordion
+					type="multiple"
+					defaultValue={["year", "distance", "duration"]}
+				>
 					{/* year filter */}
 					<AccordionItem value="year">
 						<AccordionTrigger>
@@ -99,12 +126,35 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 								</h2>
 
 								<Slider
-									defaultValue={[0, 99_999]}
+									value={selectedDistance}
 									minStepsBetweenThumbs={5000}
 									max={100_000}
 									min={0}
 									step={1}
-									onValueChange={handleSliderChange}
+									onValueChange={distanceSliderChange}
+								/>
+							</SheetDescription>
+						</AccordionContent>
+					</AccordionItem>
+					{/* Duration filter */}
+					<AccordionItem value="duration">
+						<AccordionTrigger>
+							<SheetHeader className="text-xl ">Duration:</SheetHeader>
+						</AccordionTrigger>
+						<AccordionContent>
+							<SheetDescription className="ml-3 mb-3">
+								<h2 className="text-base mb-3">
+									{(selectedDuration[0] / 3600).toFixed(1)}h -{" "}
+									{(selectedDuration[1] / 3600).toFixed(1)}h
+								</h2>
+
+								<Slider
+									value={selectedDuration}
+									minStepsBetweenThumbs={60}
+									max={21600}
+									min={0}
+									step={1}
+									onValueChange={durationSliderChange}
 								/>
 							</SheetDescription>
 						</AccordionContent>
