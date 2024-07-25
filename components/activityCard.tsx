@@ -55,11 +55,11 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 				<DialogTitle>
 					<div className="text-3xl font-bold px-5">{name}</div>
 				</DialogTitle>
-				<DialogDescription asChild className="pt-5 ">
+				<DialogDescription asChild className="pt-5 pl-5 ">
 					<div className="text-md">
 						{formatDate(start_date_local)} at{" "}
-						{formatStartTime(start_date_local)}
-						{formatDistance(distance)} km in {formatDuration(moving_time)}
+						{formatStartTime(start_date_local)} {formatDistance(distance)} km in{" "}
+						{formatDuration(moving_time)}
 					</div>
 				</DialogDescription>
 				<div className="h-[90%] p-5">
