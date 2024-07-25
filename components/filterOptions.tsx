@@ -142,7 +142,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 
 								<Slider
 									value={selectedDistance}
-									minStepsBetweenThumbs={5000}
+									minStepsBetweenThumbs={500}
 									max={100_000}
 									min={0}
 									step={1}
@@ -177,7 +177,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 					{/* speed filter */}
 					<AccordionItem value="speed">
 						<AccordionTrigger>
-							<SheetHeader className="text-xl ">Speed:</SheetHeader>
+							<SheetHeader className="text-xl ">Avg. Speed:</SheetHeader>
 						</AccordionTrigger>
 						<AccordionContent>
 							<SheetDescription className="ml-3 mb-3">
