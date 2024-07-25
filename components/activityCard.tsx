@@ -33,7 +33,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
 	return (
 		<Dialog>
 			<DialogTrigger
-				className={`w-full p-4 min-w-64 border-x-[12px] border-y-[4px] rounded-[22px] bg-gray-100 hover:bg-gray-200 dark:bg-[hsl(20,15%,10%)] dark:hover:bg-[hsl(20,76%,18%)] transition-colors pointer border-white dark:border-black font-semibold ${
+				className={`w-full p-4 border-x-[12px] border-y-[4px] rounded-[22px] bg-gray-100 hover:bg-gray-200 dark:bg-[hsl(20,15%,10%)] dark:hover:bg-[hsl(20,76%,18%)] transition-colors pointer border-white dark:border-black font-semibold ${
 					selectedLine == activity.id
 						? `bg-[hsl(24.6,95%,52%)] hover:bg-[hsl(24.6,95%,42%)] dark:bg-[hsl(24.6,95%,43%)] hover:dark:bg-[hsl(24,100%,50%)] text-gray-50 `
 						: ""

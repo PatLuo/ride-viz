@@ -23,12 +23,18 @@ export default function ActivitiesList() {
 	}, [selectedLine]);
 
 	return (
-		<ScrollArea className="h-[90vh]">
-			{filtered.map((activity) => (
-				<div key={activity.id} id={String(activity.id)}>
-					<ActivityCard activity={activity} />
+		<ScrollArea className="h-[90vh] min-w-64">
+			{filtered.length !== 0 ? (
+				filtered.map((activity) => (
+					<div key={activity.id} id={String(activity.id)}>
+						<ActivityCard activity={activity} />
+					</div>
+				))
+			) : (
+				<div className="text-center flex flex-col h-[84vh] justify-center text-xl mx-4 min-w-36">
+					No activities found
 				</div>
-			))}
+			)}
 		</ScrollArea>
 	);
 }
