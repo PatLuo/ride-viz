@@ -1,7 +1,7 @@
 import { useActivity } from "./activity-provider";
 import { useState, useEffect } from "react";
 import { FullActivity } from "@/lib/types";
-import { getAllYears } from "@/lib/filterUtils";
+import { getAllYears, filterByYear } from "@/lib/filterUtils";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Sheet,
@@ -26,13 +26,25 @@ interface FilterOptionsProps {
 }
 
 export default function FilterOptions({ activities }: FilterOptionsProps) {
-	const [filteredActivities, setFilteredActivities] = useState(activities);
+	const years = getAllYears(activities);
+
+	const [selectedYears, setSelectedYears] = useState<number[]>(years);
+
 	const { updatefiltered } = useActivity();
 
+	function handleCheckboxChange(year: number) {
+		if (selectedYears.includes(year)) {
+			setSelectedYears(selectedYears.filter((y) => y !== year));
+		} else {
+			setSelectedYears([...selectedYears, year]);
+		}
+	}
+
 	useEffect(() => {
-		updatefiltered(filteredActivities);
-	}, [filteredActivities]);
-	const years = getAllYears(activities);
+		const newFiltered = filterByYear(activities, selectedYears);
+		updatefiltered(newFiltered);
+	}, [activities, selectedYears]);
+
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
@@ -44,7 +56,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 			<SheetContent onCloseAutoFocus={(e) => e.preventDefault()}>
 				{/* Prevent focus from moving to filter btn on close */}
 				<SheetTitle className="text-2xl font-bold">Filters</SheetTitle>
-				<Accordion type="single" collapsible>
+				<Accordion type="single" collapsible defaultValue="year">
 					<AccordionItem value="year" className="ml-3">
 						<AccordionTrigger>
 							<SheetHeader className="text-xl ">Year:</SheetHeader>
@@ -53,9 +65,15 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 							<SheetDescription>
 								<div className="flex flex-col gap-y-5 ">
 									{years.map((year) => (
-										<div className="flex flex-row items-center gap-x-2 ">
-											<Checkbox id={String(year)} />
-											<div className="text-md ">{year}</div>
+										<div className="flex flex-row items-center gap-x-2">
+											<Checkbox
+												id={String(year)}
+												checked={selectedYears.includes(year)}
+												onCheckedChange={() => handleCheckboxChange(year)}
+											/>
+											<label className="text-md " htmlFor={String(year)}>
+												{year}
+											</label>
 										</div>
 									))}
 								</div>
