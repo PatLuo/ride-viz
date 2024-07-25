@@ -12,7 +12,7 @@ export default function Map() {
 
 	return (
 		<MapContainer
-			style={{ height: "90vh", width: "98vw", zIndex: 0 }}
+			style={{ height: "91vh", width: "98vw", zIndex: 0 }}
 			center={[45.424721, -75.695]}
 			zoom={13}
 		>

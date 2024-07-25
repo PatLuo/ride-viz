@@ -52,7 +52,7 @@ export default async function Home() {
 	}
 
 	return (
-		<main className="m-[2vh]">
+		<main className="mx-4 mt-4 ">
 			<ResizablePanelGroup
 				direction="horizontal"
 				className=" rounded-lg border "
