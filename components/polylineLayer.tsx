@@ -16,9 +16,6 @@ export default function PolylineLayer() {
 
 	//decode activity data into polylines
 	const { filtered } = useActivity();
-	const polylines: [number, number][][] = filtered.map((activity) => {
-		return polyline.decode(activity.map.summary_polyline);
-	});
 
 	const handleMouseOver = (polyline: any, i: number) => {
 		setHoveredIndex(i);
@@ -59,38 +56,46 @@ export default function PolylineLayer() {
 
 	return (
 		<>
-			{polylines.map((polyline, i) => (
-				<Polyline
-					className="polyline"
-					positions={polyline}
-					key={i}
-					pathOptions={
-						selectedIndex == i || hoveredIndex == i
-							? {
-									color: isDarkMode ? "hsl(24.6,95%,90%)" : "hsl(24.6,95%,15%)",
-									weight: 7,
-									opacity: 1,
-							  }
-							: {
-									color: "hsl(24.6,95%,53.1%)",
-									weight: 3,
-									opacity: 0.3,
-							  }
-					}
-					eventHandlers={{
-						mouseover(e) {
-							handleMouseOver(e.target, i);
-						},
-						mouseout(e) {
-							handleMouseOut(e.target, i);
-						},
-						click(e) {
-							handleMouseClick(e.target, i);
-							map.fitBounds(polyline);
-						},
-					}}
-				/>
-			))}
+			{filtered.map((activity) => {
+				const id = activity.id;
+				const line: [number, number][] = polyline.decode(
+					activity.map.summary_polyline
+				);
+				return (
+					<Polyline
+						className="polyline"
+						positions={line}
+						key={id}
+						pathOptions={
+							selectedIndex == id || hoveredIndex == id
+								? {
+										color: isDarkMode
+											? "hsl(24.6,95%,90%)"
+											: "hsl(24.6,95%,15%)",
+										weight: 7,
+										opacity: 1,
+								  }
+								: {
+										color: "hsl(24.6,95%,53.1%)",
+										weight: 3,
+										opacity: 0.3,
+								  }
+						}
+						eventHandlers={{
+							mouseover(e) {
+								handleMouseOver(e.target, id);
+							},
+							mouseout(e) {
+								handleMouseOut(e.target, id);
+							},
+							click(e) {
+								handleMouseClick(e.target, id);
+								map.fitBounds(line);
+							},
+						}}
+					/>
+				);
+			})}
 		</>
 	);
 }
