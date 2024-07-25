@@ -40,3 +40,14 @@ export function filterByDuration(
 			activity.moving_time <= selectedDuration[1]
 	);
 }
+
+export function filterBySpeed(
+	activities: FullActivity[],
+	selectedSpeed: number[]
+): FullActivity[] {
+	return activities.filter(
+		(activity) =>
+			activity.average_speed >= selectedSpeed[0] &&
+			activity.average_speed <= selectedSpeed[1]
+	);
+}

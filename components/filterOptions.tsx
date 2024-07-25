@@ -5,6 +5,7 @@ import {
 	filterByYear,
 	filterByDistance,
 	filterByDuration,
+	filterBySpeed,
 } from "@/lib/filterUtils"; //utils
 import { FullActivity } from "@/lib/types";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -40,6 +41,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 	const [selectedDuration, setSelectedDuration] = useState<number[]>([
 		0, 21600,
 	]);
+	const [selectedSpeed, setSelectedSpeed] = useState<number[]>([0, 11.11]);
 
 	const { updatefiltered } = useActivity(); //context updater
 
@@ -59,10 +61,15 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 		setSelectedDuration(values);
 	}
 
+	function speedSliderChange(values: number[]) {
+		setSelectedSpeed(values);
+	}
+
 	function resetFilters() {
 		setSelectedYears(years);
 		setSelectedDistance([0, 99_999]);
 		setSelectedDuration([0, 21600]);
+		setSelectedSpeed([0, 11.11]);
 	}
 
 	//apply filters one at a time to full activity list then update context
@@ -70,8 +77,15 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 		let newFiltered = filterByYear(activities, selectedYears);
 		newFiltered = filterByDistance(newFiltered, selectedDistance);
 		newFiltered = filterByDuration(newFiltered, selectedDuration);
+		newFiltered = filterBySpeed(newFiltered, selectedSpeed);
 		updatefiltered(newFiltered);
-	}, [activities, selectedYears, selectedDistance, selectedDuration]);
+	}, [
+		activities,
+		selectedYears,
+		selectedDistance,
+		selectedDuration,
+		selectedSpeed,
+	]);
 
 	return (
 		<Sheet modal={false}>
@@ -81,21 +95,22 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 				</Button>
 			</SheetTrigger>
 
-			<SheetContent side="left" onCloseAutoFocus={(e) => e.preventDefault()}>
+			<SheetContent side="left" onOpenAutoFocus={(e) => e.preventDefault()}>
 				{/* Prevent focus from moving to filter btn on close */}
 				<SheetTitle className="flex justify-between pr-10">
 					<h1 className="text-2xl font-bold">Filters</h1>
-					<Button onClick={resetFilters}>Clear Filters</Button>
+					<Button onClick={resetFilters}>Reset Filters</Button>
 				</SheetTitle>
 				<Accordion
 					type="multiple"
-					defaultValue={["year", "distance", "duration"]}
+					defaultValue={["year", "distance", "duration", "speed"]}
 				>
 					{/* year filter */}
 					<AccordionItem value="year">
 						<AccordionTrigger>
 							<SheetHeader className="text-xl ">Year:</SheetHeader>
 						</AccordionTrigger>
+
 						<AccordionContent>
 							<SheetDescription className="flex flex-col gap-y-5 ml-3">
 								{years.map((year) => (
@@ -155,6 +170,29 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 									min={0}
 									step={1}
 									onValueChange={durationSliderChange}
+								/>
+							</SheetDescription>
+						</AccordionContent>
+					</AccordionItem>
+					{/* speed filter */}
+					<AccordionItem value="speed">
+						<AccordionTrigger>
+							<SheetHeader className="text-xl ">Speed:</SheetHeader>
+						</AccordionTrigger>
+						<AccordionContent>
+							<SheetDescription className="ml-3 mb-3">
+								<h2 className="text-base mb-3">
+									{(selectedSpeed[0] * 3.6).toFixed(1)}km/h -{" "}
+									{(selectedSpeed[1] * 3.6).toFixed(1)}km/h
+								</h2>
+
+								<Slider
+									value={selectedSpeed}
+									minStepsBetweenThumbs={1}
+									max={11.11}
+									min={0}
+									step={0.0276}
+									onValueChange={speedSliderChange}
 								/>
 							</SheetDescription>
 						</AccordionContent>
