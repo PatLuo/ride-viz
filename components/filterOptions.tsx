@@ -34,6 +34,7 @@ interface FilterOptionsProps {
 
 export default function FilterOptions({ activities }: FilterOptionsProps) {
 	const years = getAllYears(activities);
+	const [filteredResults, setFilteredResults] = useState<FullActivity[]>([]);
 	const [selectedYears, setSelectedYears] = useState<number[]>(years);
 	const [selectedDistance, setSelectedDistance] = useState<number[]>([
 		0, 99_999,
@@ -78,6 +79,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 		newFiltered = filterByDistance(newFiltered, selectedDistance);
 		newFiltered = filterByDuration(newFiltered, selectedDuration);
 		newFiltered = filterBySpeed(newFiltered, selectedSpeed);
+		setFilteredResults(newFiltered);
 		updatefiltered(newFiltered);
 	}, [
 		activities,
@@ -198,6 +200,9 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
+				<h1 className="text-2xl mt-4 font-semi-bold">
+					<span>{filteredResults.length}</span> of {activities.length} Results
+				</h1>
 			</SheetContent>
 		</Sheet>
 	);
