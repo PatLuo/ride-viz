@@ -5,7 +5,6 @@ import {
 	TileLayer,
 	Polyline,
 	LayersControl,
-	useMap,
 } from "react-leaflet";
 
 const { BaseLayer } = LayersControl;
@@ -26,7 +25,6 @@ export default function MiniMap({ activity }: MiniMapProps) {
 	const polylineData: [number, number][] = polyline.decode(
 		activity.map.summary_polyline
 	);
-	console.log(polylineData);
 
 	return (
 		<>
