@@ -52,3 +52,18 @@ export async function getActivities(access_token: string, per_page = 200) {
 		return null;
 	}
 }
+
+export async function getProfileData(access_token: string) {
+	const url = `${baseUrl}api/v3/athlete?access_token=${access_token}`;
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			console.log(await response.json());
+			return null;
+		}
+		return await response.json();
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}

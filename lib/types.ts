@@ -79,3 +79,26 @@ export interface FullActivity {
 	total_photo_count: number;
 	has_kudoed: boolean;
 }
+
+export interface AthleteProfile {
+	id: number;
+	username: string;
+	resource_state: number;
+	firstname: string;
+	lastname: string;
+	bio: string | null;
+	city: string;
+	state: string;
+	country: string;
+	sex: "M" | "F" | "O"; // Assuming 'O' for other; adjust if needed
+	premium: boolean;
+	summit: boolean;
+	created_at: string; // ISO 8601 date string
+	updated_at: string; // ISO 8601 date string
+	badge_type_id: number;
+	weight: number;
+	profile_medium: string;
+	profile: string;
+	friend: string | null; // or adjust type if needed
+	follower: string | null; // or adjust type if needed
+}

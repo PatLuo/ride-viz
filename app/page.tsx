@@ -16,14 +16,14 @@ import {
 	getSession,
 	refreshAccessToken,
 	getActivities,
+	getProfileData,
 } from "@/lib/serverUtils";
-import { FullActivity, RefreshTokenData } from "@/lib/types";
+import { FullActivity, RefreshTokenData, AthleteProfile } from "@/lib/types";
 
 //data
-
 import backupData from "@/public/data.json";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 //have to dynamically import map component to fix window not found error
 import dynamic from "next/dynamic";
@@ -34,6 +34,7 @@ const Map = dynamic(() => import("@/components/map"), {
 export default async function Home() {
 	const session = await getSession();
 	let activities: FullActivity[] = [];
+	let profile = undefined;
 
 	//get new access token
 	const newToken: RefreshTokenData | null = session
@@ -42,13 +43,15 @@ export default async function Home() {
 
 	// get activites
 	if (newToken !== null) {
-		const response: FullActivity[] = await getActivities(
-			newToken.access_token,
-			200 //SPECIFY NUMBER OF ACTIVITIES TO DISPLAY
-		);
-		{
-			response !== null ? (activities = response) : (activities = backupData);
-		}
+		//fetch in parallel
+		const [activitiesResponse, profileResponse] = await Promise.all([
+			getActivities(newToken.access_token, 200), // Specify number of activities to display
+			getProfileData(newToken.access_token),
+		]);
+
+		// Handle the activities response
+		activities = activitiesResponse !== null ? activitiesResponse : backupData;
+		profile = profileResponse !== null ? profileResponse : {};
 	}
 
 	return (
@@ -78,8 +81,17 @@ export default async function Home() {
 					maxSize={55}
 					className="max-w-[90%] md:max-w-[40%] lg:max-w-[400px]"
 				>
-					<div className="flex items-center px-4 py-3 justify-between border-b">
-						<h1 className="text-2xl font-bold ">Rides</h1>
+					<div className="min-w-64 flex px-4 py-3 justify-between border-b">
+						<h1 className="text-xl font-bold py-0.5">
+							{session ? `${profile.firstname}'s ` : "My "}Rides
+						</h1>
+						{session && (
+							<img
+								src={profile.profile_medium}
+								alt="Profile pic"
+								style={{ width: "32px", height: "32px", borderRadius: "50%" }}
+							/>
+						)}
 					</div>
 					<ActivitiesList />
 				</ResizablePanel>
