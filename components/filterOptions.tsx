@@ -13,10 +13,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Sheet,
 	SheetContent,
-	SheetDescription,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
+	SheetDescription,
 } from "@/components/ui/sheet";
 import {
 	Accordion,
@@ -100,9 +100,10 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 			<SheetContent side="left" onOpenAutoFocus={(e) => e.preventDefault()}>
 				{/* Prevent focus from moving to filter btn on close */}
 				<SheetTitle className="flex justify-between pr-10">
-					<h1 className="text-2xl font-bold">Filters</h1>
+					<div className="text-2xl font-bold">Filters</div>
 					<Button onClick={resetFilters}>Reset Filters</Button>
 				</SheetTitle>
+				<SheetDescription></SheetDescription>
 				<Accordion
 					type="multiple"
 					defaultValue={["year", "distance", "duration", "speed"]}
@@ -114,9 +115,12 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 						</AccordionTrigger>
 
 						<AccordionContent>
-							<SheetDescription className="flex flex-col gap-y-5 ml-3">
+							<div className="flex flex-col gap-y-5 ml-3">
 								{years.map((year) => (
-									<div className="flex flex-row items-center gap-x-2">
+									<div
+										key={year}
+										className="flex flex-row items-center gap-x-2"
+									>
 										<Checkbox
 											id={String(year)}
 											checked={selectedYears.includes(year)}
@@ -127,7 +131,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 										</label>
 									</div>
 								))}
-							</SheetDescription>
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 					{/* distance filter */}
@@ -136,12 +140,11 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 							<SheetHeader className="text-xl ">Distance:</SheetHeader>
 						</AccordionTrigger>
 						<AccordionContent>
-							<SheetDescription className="ml-3 mb-3">
-								<h2 className="text-base mb-3">
+							<div className="ml-3 mb-3">
+								<div className="text-base mb-3">
 									{(selectedDistance[0] / 1000).toFixed(1)}km -{" "}
 									{(selectedDistance[1] / 1000).toFixed(1)}km
-								</h2>
-
+								</div>
 								<Slider
 									value={selectedDistance}
 									minStepsBetweenThumbs={500}
@@ -150,7 +153,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 									step={1}
 									onValueChange={distanceSliderChange}
 								/>
-							</SheetDescription>
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 					{/* Duration filter */}
@@ -159,11 +162,11 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 							<SheetHeader className="text-xl ">Duration:</SheetHeader>
 						</AccordionTrigger>
 						<AccordionContent>
-							<SheetDescription className="ml-3 mb-3">
-								<h2 className="text-base mb-3">
+							<div className="ml-3 mb-3">
+								<div className="text-base mb-3">
 									{(selectedDuration[0] / 3600).toFixed(1)}h -{" "}
 									{(selectedDuration[1] / 3600).toFixed(1)}h
-								</h2>
+								</div>
 
 								<Slider
 									value={selectedDuration}
@@ -173,7 +176,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 									step={1}
 									onValueChange={durationSliderChange}
 								/>
-							</SheetDescription>
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 					{/* speed filter */}
@@ -182,11 +185,11 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 							<SheetHeader className="text-xl ">Avg. Speed:</SheetHeader>
 						</AccordionTrigger>
 						<AccordionContent>
-							<SheetDescription className="ml-3 mb-3">
-								<h2 className="text-base mb-3">
+							<div className="ml-3 mb-3">
+								<div className="text-base mb-3">
 									{(selectedSpeed[0] * 3.6).toFixed(1)}km/h -{" "}
 									{(selectedSpeed[1] * 3.6).toFixed(1)}km/h
-								</h2>
+								</div>
 
 								<Slider
 									value={selectedSpeed}
@@ -196,13 +199,13 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 									step={0.0276}
 									onValueChange={speedSliderChange}
 								/>
-							</SheetDescription>
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
-				<h1 className="text-2xl mt-4 font-semi-bold">
+				<div className="text-2xl mt-4 font-semi-bold">
 					<span>{filteredResults.length}</span> of {activities.length} Results
-				</h1>
+				</div>
 			</SheetContent>
 		</Sheet>
 	);
