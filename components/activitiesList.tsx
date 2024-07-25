@@ -23,14 +23,12 @@ export default function ActivitiesList() {
 	}, [selectedLine]);
 
 	return (
-		<ScrollArea className="h-[90vh] mt-2 ">
-			<div>
-				{filtered.map((activity) => (
-					<div key={activity.id} id={String(activity.id)}>
-						<ActivityCard activity={activity} />
-					</div>
-				))}
-			</div>
+		<ScrollArea className="h-[90vh]">
+			{filtered.map((activity) => (
+				<div key={activity.id} id={String(activity.id)}>
+					<ActivityCard activity={activity} />
+				</div>
+			))}
 		</ScrollArea>
 	);
 }

@@ -91,7 +91,7 @@ export default function FilterOptions({ activities }: FilterOptionsProps) {
 		<Sheet modal={false}>
 			<SheetTrigger asChild>
 				<Button variant="ghost" size="icon">
-					<FilterIcon className="h-[1.2rem] w-[1.2rem] " />
+					<FilterIcon className="h-[1.2rem] w-[1.2rem]" />
 				</Button>
 			</SheetTrigger>
 

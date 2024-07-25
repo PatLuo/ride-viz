@@ -5,23 +5,21 @@ import {
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Card } from "@/components/ui/card";
 import { BarLoader } from "react-spinners";
 
 export default function Loading() {
 	return (
-		<main className="m-[2vh]">
+		<main className="mx-4 mt-4">
 			<ResizablePanelGroup
 				direction="horizontal"
 				className=" rounded-lg border "
 			>
 				<ResizablePanel defaultSize={75}>
-					<div className="flex items-center px-4 py-2 justify-between border-b">
-						<h1 className="text-3xl font-bold pr-3">
+					<div className="flex items-center py-2.5 justify-between border-b">
+						<h1 className="text-3xl font-bold pl-3">
 							RIDE<span className="text-primary">VIZ</span>
 						</h1>
-						<ModeToggle />
 					</div>
 					<div
 						className=" flex justify-center items-center h-full animate-pulse bg-gray-200 dark:bg-[hsl(20,14%,11%)]  "
