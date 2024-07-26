@@ -31,9 +31,6 @@ export default function Loading() {
 					maxSize={50}
 					className="max-w-[90%] md:max-w-[40%] lg:max-w-[400px]"
 				>
-					<div className="flex items-center px-4 py-3.5 justify-between border-b">
-						<h1 className="text-xl font-bold ">My Rides</h1>
-					</div>
 					<ScrollArea className="h-[90vh]">
 						<div className="flex flex-col items-stretch justify-between gap-2 rouded-lg p-3">
 							{[...Array(10).keys()].map((i) => (
