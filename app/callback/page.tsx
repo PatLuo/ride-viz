@@ -13,7 +13,7 @@ export default function Callback() {
 			if (authCode) {
 				try {
 					const response = await fetch(
-						"http://localhost:3000/api/exchange-auth-code",
+						`${process.env.NEXT_PUBLIC_URI}api/exchange-auth-code`,
 						{
 							method: "POST",
 							headers: {
@@ -35,7 +35,7 @@ export default function Callback() {
 	}, []);
 
 	return (
-		<div className="h-screen flex items-center justify-center">
+		<div className="h-screen flex flex-col items-center justify-center">
 			<p className="text-2xl">Redirecting...</p>
 			<MoonLoader color="#f8701b" loading={true} size={50} />
 		</div>
