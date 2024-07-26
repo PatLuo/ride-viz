@@ -68,13 +68,13 @@ export default async function Home() {
 	}
 
 	return (
-		<main className="mx-[18px] mt-5">
+		<main className=" p-4 d-4 h-screen flex flex-col items-center justify-center">
 			<ResizablePanelGroup
 				direction="horizontal"
-				className=" rounded-lg border "
+				className=" rounded-lg border"
 			>
 				<ResizablePanel defaultSize={75}>
-					<div className="flex items-center py-2.5 justify-between border-b ml-2">
+					<div className="flex items-center py-3 justify-between border-b pl-2">
 						<Logo />
 						<div className="flex items-center h-7 space-x-1 pr-1">
 							{session ? <LogoutBtn /> : <StravaBtn />}
@@ -92,8 +92,8 @@ export default async function Home() {
 					maxSize={55}
 					className="max-w-[90%] md:max-w-[40%] lg:max-w-[400px]"
 				>
-					<div className="min-w-64 flex px-4 py-3 justify-between border-b">
-						<h1 className="text-xl font-bold py-0.5">
+					<div className="min-w-64 flex px-4 items-center justify-between border-b">
+						<h1 className="text-xl font-bold py-[15.5px]">
 							{profile ? `${profile.firstname}'s ` : "My "}Rides
 						</h1>
 						{profile && (
