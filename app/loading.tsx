@@ -16,11 +16,7 @@ export default function Loading() {
 				className=" rounded-lg border "
 			>
 				<ResizablePanel defaultSize={75}>
-					<div className="flex items-center py-2.5 justify-between border-b">
-						<h1 className="text-3xl font-bold pl-3">
-							RIDE<span className="text-primary">VIZ</span>
-						</h1>
-					</div>
+					<div className="flex items-center py-5 justify-between border-b ml-2"></div>
 					<div
 						className=" flex justify-center items-center h-full animate-pulse bg-gray-200 dark:bg-[hsl(20,14%,11%)]  "
 						style={{

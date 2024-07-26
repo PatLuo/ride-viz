@@ -11,6 +11,7 @@ import StravaBtn from "@/components/stravaBtn";
 import LogoutBtn from "@/components/logoutBtn";
 import Filter from "@/components/filterBtn";
 import ActivitiesList from "@/components/activitiesList";
+import Logo from "@/components/logo";
 //utils
 import {
 	getSession,
@@ -61,10 +62,8 @@ export default async function Home() {
 				className=" rounded-lg border "
 			>
 				<ResizablePanel defaultSize={75}>
-					<div className="flex items-center py-2.5 justify-between border-b">
-						<h1 className="text-3xl font-bold pl-3">
-							RIDE<span className="text-primary">VIZ</span>
-						</h1>
+					<div className="flex items-center py-2.5 justify-between border-b ml-2">
+						<Logo />
 						<div className="flex items-center h-7 space-x-1 pr-1">
 							{session ? <LogoutBtn /> : <StravaBtn />}
 							<Separator orientation="vertical" />
