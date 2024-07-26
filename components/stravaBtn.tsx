@@ -12,7 +12,7 @@ export default function stravaBtn() {
 				<TooltipTrigger>
 					<div className="flex flex-row items-center">
 						<a
-							href={`https://www.strava.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}/callback&response_type=code&scope=activity:read`}
+							href={`https://www.strava.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}callback&response_type=code&scope=activity:read`}
 						>
 							<svg
 								width="193px"
