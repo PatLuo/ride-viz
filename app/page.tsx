@@ -24,35 +24,48 @@ import { FullActivity, RefreshTokenData, AthleteProfile } from "@/lib/types";
 //data
 import backupData from "@/public/data.json";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 //have to dynamically import map component to fix window not found error
 import dynamic from "next/dynamic";
+import { get } from "http";
 const Map = dynamic(() => import("@/components/map"), {
 	ssr: false,
 });
 
 export default async function Home() {
-	const session = await getSession();
 	let activities: FullActivity[] = [];
-	let profile = undefined;
+	let profile: AthleteProfile | undefined = undefined;
 
-	//get new access token
-	const newToken: RefreshTokenData | null = session
-		? await refreshAccessToken(session)
-		: await refreshAccessToken(); //uses default refresh token
+	const session = await getSession();
+	if (session) {
+		// get new tokens
+		const newTokens: RefreshTokenData | null = await refreshAccessToken(
+			session
+		);
+		// get activites
+		if (newTokens !== null) {
+			//fetch in parallel
+			const [activitiesResponse, profileResponse] = await Promise.all([
+				getActivities(newTokens.access_token, 200), // Specify number of activities to display
+				getProfileData(newTokens.access_token),
+			]);
 
-	// get activites
-	if (newToken !== null) {
-		//fetch in parallel
-		const [activitiesResponse, profileResponse] = await Promise.all([
-			getActivities(newToken.access_token, 200), // Specify number of activities to display
-			getProfileData(newToken.access_token),
-		]);
+			activities = activitiesResponse;
+			profile = profileResponse;
+		} else {
+			console.log("Error fetching new tokens");
+		}
+	} else {
+		//if no session, use my refresh token
+		const myTokens = await refreshAccessToken(); //use backup refresh token
+		if (myTokens !== null) {
+			activities = await getActivities(myTokens.access_token, 200);
+		}
+	}
 
-		// Handle the activities response
-		activities = activitiesResponse !== null ? activitiesResponse : backupData;
-		profile = profileResponse !== null ? profileResponse : {};
+	if (activities.length === 0) {
+		activities = backupData as FullActivity[];
 	}
 
 	return (
@@ -82,9 +95,9 @@ export default async function Home() {
 				>
 					<div className="min-w-64 flex px-4 py-3 justify-between border-b">
 						<h1 className="text-xl font-bold py-0.5">
-							{session ? `${profile.firstname}'s ` : "My "}Rides
+							{profile ? `${profile.firstname}'s ` : "My "}Rides
 						</h1>
-						{session && (
+						{profile && (
 							<img
 								src={profile.profile_medium}
 								alt="Profile pic"
