@@ -24,11 +24,10 @@ import { FullActivity, RefreshTokenData, AthleteProfile } from "@/lib/types";
 //data
 import backupData from "@/public/data.json";
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 //have to dynamically import map component to fix window not found error
 import dynamic from "next/dynamic";
-import { get } from "http";
 const Map = dynamic(() => import("@/components/map"), {
 	ssr: false,
 });
