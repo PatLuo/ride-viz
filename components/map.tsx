@@ -5,15 +5,41 @@ const { BaseLayer } = LayersControl;
 import "leaflet/dist/leaflet.css";
 import { useTheme } from "next-themes"; //to check theme and modify map buttons
 import PolylineLayer from "./polylineLayer";
+import { useActivity } from "./activity-provider";
+import polyline from "@mapbox/polyline"; //to decode polyline data
+import { getCenter } from "../lib/activityUtils";
+import { useEffect, useState } from "react";
 
 export default function Map() {
 	const { resolvedTheme } = useTheme();
 	const isDarkMode = resolvedTheme === "dark";
 
+	// only importing activities to calculate center of all polylines
+	const { filtered } = useActivity();
+	const encodedPolylines: string[] = filtered.map((activity) => {
+		return activity.map.summary_polyline;
+	});
+	const polylines = encodedPolylines.map((encodedPolyline) => {
+		return polyline.decode(encodedPolyline);
+	});
+
+	// have to wait for activites to be loaded before rendering map
+	const [isMounted, setIsMounted] = useState(false);
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
+	const mapCenter = getCenter(polylines);
+	console.log(mapCenter);
+
+	if (!isMounted) {
+		return null;
+	}
+
 	return (
 		<MapContainer
 			style={{ height: "90vh", width: "98vw", zIndex: 0 }}
-			center={[45.424721, -75.695]}
+			center={mapCenter}
 			zoom={13}
 		>
 			<LayersControl position="bottomleft">

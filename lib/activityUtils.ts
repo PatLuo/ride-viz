@@ -34,3 +34,21 @@ export function formatDuration(seconds: number) {
 export function formatDistance(distance: number) {
 	return Math.round(distance / 100) / 10; //round to 1 decimal place
 }
+
+export function getCenter(polylines: [number, number][][]): [number, number] {
+	function median(arr: number[]) {
+		const sorted = [...arr].sort((a, b) => a - b);
+		const mid = Math.floor(sorted.length / 2);
+		return sorted.length % 2 !== 0
+			? sorted[mid]
+			: (sorted[mid - 1] + sorted[mid]) / 2;
+	}
+
+	const points = polylines.flat(1);
+	const xPoints = points.map((point) => point[0]);
+	const yPoints = points.map((point) => point[1]);
+
+	const xMedian = median(xPoints);
+	const yMedian = median(yPoints);
+	return [xMedian, yMedian];
+}
