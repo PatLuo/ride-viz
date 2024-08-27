@@ -4,7 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ActivityProvider } from "@/components/activity-provider";
-
+import { Analytics } from "@vercel/analytics/react";
 const fontSans = FontSans({
 	subsets: ["latin"],
 	variable: "--font-sans",
@@ -36,6 +36,7 @@ export default function RootLayout({
 				>
 					<ActivityProvider>{children}</ActivityProvider>
 				</ThemeProvider>
+				<Analytics />
 			</body>
 		</html>
 	);
