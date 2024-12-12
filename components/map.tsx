@@ -29,8 +29,8 @@ export default function Map() {
 		setIsMounted(true);
 	}, []);
 
-	const mapCenter = getCenter(polylines);
-	console.log(mapCenter);
+	let mapCenter: number[] = [45.42, 75.7];
+	mapCenter = getCenter(polylines);
 
 	if (!isMounted) {
 		return null;
