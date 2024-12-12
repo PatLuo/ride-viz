@@ -43,12 +43,15 @@ export function getCenter(polylines: [number, number][][]): [number, number] {
 			? sorted[mid]
 			: (sorted[mid - 1] + sorted[mid]) / 2;
 	}
+	try {
+		const points = polylines.flat(1);
+		const xPoints = points.map((point) => point[0]);
+		const yPoints = points.map((point) => point[1]);
 
-	const points = polylines.flat(1);
-	const xPoints = points.map((point) => point[0]);
-	const yPoints = points.map((point) => point[1]);
-
-	const xMedian = median(xPoints);
-	const yMedian = median(yPoints);
-	return [xMedian, yMedian];
+		const xMedian = median(xPoints);
+		const yMedian = median(yPoints);
+		return [xMedian, yMedian];
+	} catch {
+		return [45.42, 75.7];
+	}
 }

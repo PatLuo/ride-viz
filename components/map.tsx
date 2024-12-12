@@ -29,9 +29,6 @@ export default function Map() {
 		setIsMounted(true);
 	}, []);
 
-	let mapCenter: number[] = [45.42, 75.7];
-	mapCenter = getCenter(polylines);
-
 	if (!isMounted) {
 		return null;
 	}
@@ -39,7 +36,7 @@ export default function Map() {
 	return (
 		<MapContainer
 			style={{ height: "90vh", width: "98vw", zIndex: 0 }}
-			center={mapCenter}
+			center={getCenter(polylines)}
 			zoom={13}
 		>
 			<LayersControl position="bottomleft">
